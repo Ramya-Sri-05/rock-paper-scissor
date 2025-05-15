@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+            background-color: rgb(0, 0, 0);
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+           
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+            margin: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            padding:5px;
+            transition:box-shadow .5s;
+           
+        }
+        .rock{
+             border: 5px solid hsl(0, 0%, 100%);
+         }
+          .paper{
+             border: 5px solid hsl(0, 0%, 100%);
+         }
+         .scissor{
+            border: 5px solid hsl(0, 0%, 100%);
+
+         }
+        img:hover{
+            box-shadow: 0px 0px 20px rgb(255, 255, 255);
+            transform:scale(1.2);
+        }
+        
+
+        .display-result, .display-score {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .total{
+            margin-top: 25vh;
+        }
+
+        .reset-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .reset-btn:hover{
+            background-color: beige;
+            transform:scale(1.2);
+        }
+        
+      
+    </style>
+</head>
+<body>
+    <div class="total">
+    <h1>Rock Paper Scissors</h1>
+
+    <img src="rock.png" alt="Rock" class="rock" title="want to choose rock" onclick="umv='rock'; resultcalc(umv);">
+    <img src="paper.png" alt="Paper" class="paper" title="want to choose paper" onclick="umv='paper'; resultcalc(umv);">
+    <img src="scissor.png" alt="Scissor"class="scissor" title="want to choose scissor" onclick="umv='scissor'; resultcalc(umv);">
+
+    <div>
+        <button class="reset-btn" onclick="reset();">Reset</button>
+    </div>
+
+    <p class="display-result"></p>
+    <p class="display-score"></p>
+
+     <audio id="rocksound" preload="auto">
+        <source src="rock-sound.mp3" type="audio/mp3">
+      </audio>
+
+      <audio id="papersound" preload="auto">
+        <source src="paper-sound.mp3" type="audio/mp3">
+      </audio>
+
+      <audio id="scissorsound" preload="auto">
+        <source src="scissor-sound.mp3" type="audio/mp3">
+      </audio>
+
+      <audio id="winsound">
+            <source src="win.mp3" type="audio/mp3">
+        </audio>
+
+        <audio id="losesound">
+            <source src="lose.mp3" type="audio/mp3">
+        </audio>
+
+        <audio id="tiesound">
+            <source src="tie.mp3" type="audio/mp3">
+        </audio>
+
+</div>
+    <script>
+        let score = {
+            win: 0,
+            lose: 0,
+            tie: 0
+        };
+
+        let umv = '';
+
+      
+
+
+
+        function computerMove() {
+            let cm = Math.random();
+            let com = '';
+            if (cm <= 1 / 3) {
+                com = 'rock';
+            } else if (cm <= 2 / 3) {
+                com = 'paper';
+            } else {
+                com = 'scissor';
+            }
+            return com;
+        }
+
+        function resultcalc(usm) {
+            let cmv = computerMove();
+            let result = '';
+            if (usm === 'rock') {
+                document.getElementById('rocksound').play();
+            } else if (usm === 'paper') {
+                document.getElementById('papersound').play();
+            } else if (usm === 'scissor') {
+                document.getElementById('scissorsound').play();
+            }
+
+            if (usm === cmv) {
+                result = 'tie';
+            } else if (
+                (usm === 'rock' && cmv === 'scissor') ||
+                (usm === 'paper' && cmv === 'rock') ||
+                (usm === 'scissor' && cmv === 'paper')
+            ) {
+                result = 'win';
+            } else {
+                result = 'lose';
+            }
+            var emoji='';
+            if(result==='win'){
+                emoji='🙌😍';
+            }
+            if(result==='lose'){
+                emoji="😔";
+            }
+            if(result==='tie'){
+                emoji="😁";
+            }
+
+            document.querySelector(".display-result").innerHTML = `You chose ${usm}, computer chose ${cmv}. You ${result} ${emoji}.`;
+            scoreResult(result);
+        }
+
+        function reset() {
+            score.win = 0;
+            score.lose = 0;
+            score.tie = 0;
+            localStorage.setItem('score', JSON.stringify(score));
+            document.querySelector(".display-result").innerHTML = `Score reset.`;
+            scoreResult();
+        }
+
+        function scoreResult(result) {
+            if (result === 'win') {
+                score.win++;
+            } else if (result === 'lose') {
+                score.lose++;
+            } else if (result === 'tie') {
+                score.tie++;
+            }
+            localStorage.setItem('score', JSON.stringify(score));
+            document.querySelector('.display-score').innerHTML = `SCORE - Win: ${score.win}, Lose: ${score.lose}, Tie: ${score.tie}`;
+        }
+    </script>
+
+</body>
+</html>

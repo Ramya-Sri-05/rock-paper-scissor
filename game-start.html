@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+     background-color: #000;
+      color: #fff;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+   
+
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #startBtn, .redirect {
+      padding: 12px 25px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      transition: 0.3s ease;
+    }
+
+    #startBtn:hover, .redirect:hover {
+      background-color: #444;
+      color: #fff;
+    }
+
+    .para {
+      font-size: 40px;
+      margin: 30px 0;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 1s ease;
+      
+    }
+
+    .para.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .redirect {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    .redirect.showbtn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .rock,.rock2,.paper,.paper2,.scissors,.scissors2{
+      border-radius: 50%;
+      box-shadow:0px 0px 30px #fff;
+    }
+          .falling {
+        position: absolute;
+        top: -100px;
+        width: 60px;
+        opacity: 0.8;
+        animation: fall 4s linear infinite;
+        pointer-events: none; 
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50%{
+          transform: translateY(50vh) rotate(360deg);
+        }
+        100% {
+          transform: translateY(110vh) rotate(0deg);
+        }
+      }
+
+      
+      .rock { left: 15%;  }
+      .paper { left: 30%;  }
+      .scissors { left: 45%; }
+      .rock2 { left: 60%;  }
+      .paper2 { left: 75%; }
+      .scissors2 { left: 90%;  }
+
+    
+  </style>
+</head>
+<body>
+  <h1>Hey, let's play Rock-Paper-Scissors!</h1>
+  <button id="startBtn">Start Game</button>
+  <p class="para">You v/s Computer</p>
+  <button class="redirect">Let's Go!!</button>
+
+  <audio id="startSound" preload="auto">
+    <source src="mouse-click.mp3" type="audio/mp3">
+  </audio>
+
+  
+    <img src="rock.png" class="falling rock" />
+    <img src="paper.png" class="falling paper" />
+    <img src="scissor.png" class="falling scissors" />
+    <img src="rock.png" class="falling rock2" />
+    <img src="paper.png" class="falling paper2" />
+    <img src="scissor.png" class="falling scissors2" />
+
+
+  <script>
+    const para = document.querySelector('.para');
+    const sound = document.getElementById('startSound');
+    const startBtn = document.getElementById('startBtn');
+    const redirectBtn = document.querySelector(".redirect");
+
+    startBtn.addEventListener('click', () => {
+      para.classList.add('show');
+      sound.play();
+      startBtn.style.display = 'none';
+      setTimeout(() => {
+        redirectBtn.classList.add('showbtn');
+      }, 1000); 
+    });
+
+    redirectBtn.addEventListener('click', () => {
+      sound.play();
+      setTimeout(() => {
+        window.location.href = 'rock-paper-scissor.html';
+      }, 400); 
+    });
+  </script>
+</body>
+</html>
